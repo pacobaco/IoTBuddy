@@ -1,0 +1,26 @@
+mqtt:
+  host: "homeassistant.local"
+  port: 1883
+  username: "iotbuddy"
+  password: "change_me"
+  base_topic: "iotbuddy"
+
+eeg:
+  source: "simulate"          # simulate | brainflow | muse | csv
+  sample_rate: 250
+  window_seconds: 1.0
+
+feedback:
+  osc_enabled: true
+  osc_ip: "127.0.0.1"
+  osc_port: 57120
+
+multi_seat:
+  enabled: true
+  seat_timeout_seconds: 90
+  night_start_hour: 22
+  night_end_hour: 7
+
+companion:
+  learn_personal_rhythm: true
+  morning_summary: true
