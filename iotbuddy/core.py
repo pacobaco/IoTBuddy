@@ -5,7 +5,9 @@ from .iot_bridge import IoTBridge
 from .feedback import FeedbackEngine
 from .multi_seat.seat_manager import SeatManager
 from .multi_seat.arbitrator import Arbitrator
+from iotbuddy.face import FaceFlowBridge, emotion_to_affect, fuse_states
 
+class IoTBuddy:
 
 class IoTBuddy:
     def __init__(self, config: dict):
@@ -32,6 +34,24 @@ class IoTBuddy:
             port=fb_cfg.get("osc_port", 57120),
         )
         self.running = False
+False))
+        face_cfg = config.get("face", {})
+        self.face_bridge = FaceFlowBridge(enabled=face_cfg.get("enabled", 
+
+    def process_multimodal(self, seat_id: str, eeg_window, frame=None, fs: float = 250.0):
+        from iotbuddy.eeg import extract_powers
+
+        powers = extract_powers(eeg_window, fs)
+
+        if frame is not None and self.face_bridge.is_available():
+            raw = self.face_bridge.analyze_frame(frame)
+            if raw:
+                affect = emotion_to_affect(raw["dominant"], raw["scores"])
+                powers = fuse_states(powers, affect)
+                # Optional: publish affect on MQTT
+                # self.iot.publish_affect(seat_id, affect)
+
+        return self.process_seat_window(seat_id, eeg_window=None, powers=powers)  # or adapt existing method
 
     def start(self):
         try:
