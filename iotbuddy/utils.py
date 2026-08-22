@@ -1,0 +1,8 @@
+import yaml
+from pathlib import Path
+from typing import Dict, Any
+
+
+def load_config(path: str | Path = "config/default.yaml") -> Dict[str, Any]:
+    with open(path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
