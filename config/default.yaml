@@ -24,3 +24,9 @@ multi_seat:
 companion:
   learn_personal_rhythm: true
   morning_summary: true
+
+face:
+  enabled: true
+  camera_index: 0
+  process_every_n_frames: 5          # performance
+  backend: "mediapipe+deepface"
